@@ -12,6 +12,7 @@ public class ClientHandler {
     DataInputStream in;
     String nick;
 
+
     public ClientHandler(Server server, Socket socket) {
         try {
             this.server = server;
@@ -28,13 +29,18 @@ public class ClientHandler {
                             String[] token = str.split(" ");
                             String newNick =
                                     AuthService.getNickByLoginAndPass(token[1],token[2]);
-                            if(newNick != null){
+                            System.out.println(newNick);
+                            if(newNick != null & !server.equalsClient(newNick)){
+//                                System.out.println("conteins " + server.conteinsClient(newNick));
+//                                System.out.println("equals " + server.equalsClient(newNick));
                                 sendMsg("/authok");
                                 nick = newNick;
                                 server.subscribe(this);
+
+//                                System.out.println(server.getClass(this));
                                 break;
                             }else {
-                                sendMsg("Неверный логин / пароль");
+                                sendMsg("Неверный логин / пароль. Or user online.");
                             }
                         }
                     }
@@ -43,14 +49,26 @@ public class ClientHandler {
                     while (true) {
                         String str = in.readUTF();
 
+//                        String[] strArr = str.split(" ");
+//                        System.out.println(strArr[1]  + str);
+
                         if (str.equals("/end")) {
                             out.writeUTF("/end");
                             System.out.println("Клиент отключился");
                             break;
                         }
+                        if(str.startsWith("/w"))
+                        {
+                            String to = str.split(" ")[1];
+                            String msg = str.split(" ")[2];
+                            server.broadcastMsgClient(this, to, msg);
+                        }else
+                        {
+                            System.out.println(str);
+                            server.broadcastMsg(nick + ": " +str);
+                        }
 
-                        System.out.println(str);
-                        server.broadcastMsg(nick + ": " +str);
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -78,6 +96,10 @@ public class ClientHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getNick() {
+        return  nick;
     }
 
     public void sendMsg(String str) {
