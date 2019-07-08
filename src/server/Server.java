@@ -69,8 +69,8 @@ public class Server {
     public void broadcastMsgClient(ClientHandler from, String to, String msg){
         for (ClientHandler client: clients) {
             if (client.getNick().equals(to)){
-               client.sendMsg("/w From: " + from.getNick()+"  "+ msg);
-               from.sendMsg("/w To: "+client.getNick() +" "+ msg);
+               client.sendMsg("From: " + from.getNick()+"  "+ msg);
+               from.sendMsg("To: "+client.getNick() +" "+ msg);
                break;
             }
         }
