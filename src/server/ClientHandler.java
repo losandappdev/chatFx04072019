@@ -3,7 +3,9 @@ package server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class ClientHandler {
     private Server server;
@@ -59,8 +61,9 @@ public class ClientHandler {
                         }
                         if(str.startsWith("/w"))
                         {
-                            String to = str.split(" ")[1];
-                            String msg = str.split(" ")[2];
+                            String[] strings = str.split(" ");
+                            String to = strings[1];
+                            String msg = str;
                             server.broadcastMsgClient(this, to, msg);
                         }else
                         {

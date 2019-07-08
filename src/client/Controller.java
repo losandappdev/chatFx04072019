@@ -44,6 +44,7 @@ public class Controller {
     public void setAuthorized(boolean isAuthorized){
         this.isAuthorized = isAuthorized;
         if(isAuthorized){
+
             upperPanel.setVisible(false);
             upperPanel.setManaged(false);
             bottomPanel.setVisible(true);
@@ -74,6 +75,7 @@ public class Controller {
                             if (str.equals("/authok")) {
                                 setAuthorized(true);
                                 break;
+
                             }
                             textArea.appendText(str +"\n");
                         }
