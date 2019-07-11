@@ -44,11 +44,45 @@ public class Server {
         }
     }
 
+    public Vector<ClientHandler> getClients() {
+        return clients;
+    }
+    public boolean conteinsClient(String nick){
+        return clients.contains(nick);
+
+    }
+    public boolean equalsClient(String newNick){
+//        return newNick.equals(clients.getNick);
+        for (int i = 0; i <clients.size() ; i++) {
+            if (newNick.equals(clients.get(i).getNick())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void broadcastMsg(String str){
         for (ClientHandler o: clients) {
             o.sendMsg(str);
         }
     }
+    public void broadcastMsgClient(ClientHandler from, String to, String msg){
+        for (ClientHandler client: clients) {
+            if (client.getNick().equals(to)){
+               client.sendMsg("From: " + from.getNick()+"  "+ msg);
+               from.sendMsg("To: "+client.getNick() +" "+ msg);
+               break;
+            }
+        }
+
+//        (int i = 0; i <clients.size() ; i++) {
+//            if (for clients.get(i).getNick().equals(to))
+//                clients.elementAt(i).sendMsg("/w From: " + from.getNick()+"  "+ str);
+////
+//            break;
+//        }
+    }
+
 
     public void subscribe(ClientHandler clientHandler){
         clients.add(clientHandler);
