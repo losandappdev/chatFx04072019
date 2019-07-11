@@ -125,7 +125,7 @@ public class Controller {
             out.writeUTF("/auth "+loginField.getText()+" "
                     + passwordField.getText());
             loginField.clear();
-            passwordField.clear();
+              passwordField.clear();
         } catch (IOException e) {
             e.printStackTrace();
         }
